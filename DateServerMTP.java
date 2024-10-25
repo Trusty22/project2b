@@ -4,45 +4,57 @@ import java.util.concurrent.*;
 
 public class DateServerMTP {
     public static void main(String[] args) {
-        int port = Integer.parseInt(args[0]);
-        ExecutorService pool = Executors.newFixedThreadPool(10); // Create a thread pool
 
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("Server listening on port " + port);
+        int port = Integer.parseInt(args[0]);
+        
+        ExecutorService threadPool = Executors.newFixedThreadPool(10); 
+
+        try (ServerSocket serSoc = new ServerSocket(port)) {
+
+            System.out.println("Port: " + port + " open.");
+
             while (true) {
-                Socket clientSocket = serverSocket.accept();
-                pool.execute(new ClientHandler(clientSocket)); // Submit task to the pool
+                Socket soc = serSoc.accept();
+                threadPool.execute(new ClientHandler(soc)); 
             }
+
         } catch (IOException e) {
+
             System.err.println(e);
+        
         } finally {
-            pool.shutdown(); // Shutdown the pool (not reached in this infinite loop)
+            threadPool.shutdown(); 
         }
     }
 }
 
 class ClientHandler implements Runnable {
-    private Socket clientSocket;
+    private Socket soc;
 
     public ClientHandler(Socket socket) {
-        this.clientSocket = socket;
+        this.soc = socket;
     }
 
     @Override
     public void run() {
-        try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
-            // Simulate 5000ms of work
+
+        try (PrintWriter sysOut = new PrintWriter(soc.getOutputStream(), true)) {
+
             Thread.sleep(5000);
-            // Write the current date to the socket
-            out.println(new java.util.Date().toString());
+            sysOut.println(new java.util.Date().toString());
+
         } catch (IOException | InterruptedException e) {
+
             System.err.println(e);
+
         } finally {
+
             try {
-                clientSocket.close();
+                soc.close();
             } catch (IOException e) {
                 System.err.println(e);
             }
+
         }
     }
 }

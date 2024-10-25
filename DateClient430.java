@@ -11,14 +11,9 @@ public class DateClient430
         
         try
         {
-            if (args.length != 1) {
-                System.err.println("Usage: java DateClient430 <port number>");
-                 System.exit(1);
-            }
+            
 
-            int port = Integer.parseInt(args[0]); 
-
-            Socket sock = new Socket("127.0.0.1",port);
+            Socket sock = new Socket("127.0.0.1",1617); // changed the port to my student id
             InputStream in = sock.getInputStream();
             BufferedReader bin = new BufferedReader(new InputStreamReader(in));
             String line;
