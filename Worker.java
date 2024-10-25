@@ -1,8 +1,12 @@
 class Worker implements Runnable {
-    private Socket clientSocket;
+    /*
+    * This class (Worker) just acts basiclly as a contructor for the server, run, and clientserver.
+    * It gets properly used/overided and implented in MTP
+    */
+    private Socket soc;
 
     public Worker(Socket socket) {
-        this.clientSocket = socket;
+        this.soc = socket;
     }
 
     @Override
