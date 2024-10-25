@@ -1,0 +1,5 @@
+javac DateServerMTP.java
+java DateServerMTP 1617
+
+javac DateClient430.java
+java DateClient430
